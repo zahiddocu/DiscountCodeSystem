@@ -1,0 +1,55 @@
+Instructions to Run and Test the gRPC API
+
+Database Note:
+
+For this task, I’ve used SQLite because it’s lightweight and easy to install — especially for code reviewers to run the project without extra setup.
+When deploying to UAT or Production, we can easily switch to SQL Server, which performs better, especially for concurrent operations, when used with Entity Framework.
+=========================================
+ How to Test the gRPC API Using Postman:
+
+	Build and Run the Project:
+		Select Build > Clean Solution, then Build > Rebuild Solution.
+	Or via command line:
+		dotnet clean
+		dotnet build
+		dotnet run
+	After running, you’ll see a message like:
+		Now listening on: https://localhost:5277 (The port number may vary based on your machine — note it down.)
+	Install and Set Up Postman:
+
+		Download and install Postman.
+
+		Open Postman and press Ctrl + N (or New button) to create a new request.
+
+		Select gRPC Request as the request type.
+
+    Connect to the gRPC Service:
+		In the URL field, enter the project’s URL you noted earlier, for example:
+		https://localhost:5277
+		On the left side, you’ll see a Method field — click it and choose Import a .proto file.
+		Select the .proto file from the project:
+			DiscountCodeSystem.Proto/discount.proto
+		Invoke the API Methods:
+			After importing, you’ll see two available methods:
+				generateCodes
+					Test the generateCodes Method:
+						Select generateCodes.
+						In the Message tab, enter the following JSON:
+							{
+							  "count": 2000,
+							  "length": 8
+							}
+					Click Invoke to run the method.
+
+				useCodes
+					Test the useCodes Method:
+						Select useCodes.
+						In the Message tab, enter:
+							{
+							  "code": "ExistingCodeFromPreReq"
+							}
+						Replace "ExistingCodeFromPreReq" with an actual code generated from the previous request.
+						Click Invoke to run the method.
+
+
+
